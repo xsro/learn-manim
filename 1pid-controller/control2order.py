@@ -17,8 +17,8 @@ def compose_closed_loop(
     return Gcl,G,Gc
 
 
-class TextsEn:
-
+class AniText:
+    parameters=[]
     def __init__(self,plant,pid):
         self.title_full=[Tex("control the system "+plant,font_size=40),
                     Tex("with PID constroller "+pid,font_size=40)]
@@ -29,29 +29,30 @@ class TextsEn:
             Tex("increase $K_i$ to eliminate the tracking error"),
             Tex("increase $K_d$ to reduce oscillating and improve rapidity"),
         ]
-        
-class TextsCh:
 
-    def __init__(self,plant,pid):
-        self.title_full=[
-            Tex("使用PID控制器"+pid, tex_template=TexTemplateLibrary.ctex,font_size=40),
-            Tex("控制二阶系统 "+plant, tex_template=TexTemplateLibrary.ctex,font_size=40),
-        ]
-        self.title_short=Tex("使用 "+pid+" 控制 "+plant, tex_template=TexTemplateLibrary.ctex)
-        self.descriptions=[
-            Tex("初始时刻所有参数为零，无响应", tex_template=TexTemplateLibrary.ctex),
-            Tex("增大 $K_p$ 响应逐步靠近参考信号", tex_template=TexTemplateLibrary.ctex),# [[constant tracking error is observed]]
-            Tex("增大 $K_i$ 提升准确性，消除静差", tex_template=TexTemplateLibrary.ctex),
-            Tex("增大 $K_d$ 提升快速性，减少震荡和超调", tex_template=TexTemplateLibrary.ctex),
-        ]
+    @staticmethod
+    def new(plant,pid,i18n="en"):
+        out=AniText(plant,pid)
+        if i18n=="zh-cn":
+            out.title_full=[
+                Tex("使用PID控制器"+pid, tex_template=TexTemplateLibrary.ctex,font_size=40),
+                Tex("控制二阶系统 "+plant, tex_template=TexTemplateLibrary.ctex,font_size=40),
+            ]
+            out.title_short=Tex("使用 "+pid+" 控制 "+plant, tex_template=TexTemplateLibrary.ctex)
+            out.descriptions=[
+                Tex("初始时刻所有参数为零，无响应", tex_template=TexTemplateLibrary.ctex),
+                Tex("增大 $K_p$ 响应逐步靠近参考信号", tex_template=TexTemplateLibrary.ctex),# [[constant tracking error is observed]]
+                Tex("增大 $K_i$ 提升准确性，消除静差", tex_template=TexTemplateLibrary.ctex),
+                Tex("增大 $K_d$ 提升快速性，减少震荡和超调", tex_template=TexTemplateLibrary.ctex),
+            ]
+        return out
+        
 
 
 class PidPerformance(Scene):
+    i18n="en"
 
     def construct(self):
-        self.construct0()
-
-    def construct0(self,i18n="en"):
         # 1 full title
         omega_n=1
         zeta=1
@@ -60,9 +61,7 @@ class PidPerformance(Scene):
         plant= r"$\frac{"+num+"}{"+den+"}$"
         pid=r"$K_p + K_i\frac{1}{s} + K_ds$"
 
-        texts=TextsEn(plant,pid)
-        if i18n=="ch":
-            texts=TextsCh(plant,pid)
+        texts=AniText.new(plant,pid,i18n=self.i18n)
         
         texts.title_full[1].next_to(texts.title_full[0],DOWN,buff=1)
         title_full=VGroup(*texts.title_full)
@@ -143,9 +142,8 @@ class PidPerformance(Scene):
 
         self.wait(5)
 
-class PidPerformanceCh(PidPerformance):
-    def construct(self):
-        self.construct0(i18n="ch")
+class PidPerformanceZh(PidPerformance):
+    i18n="zh-cn"
 
 
 #%%
