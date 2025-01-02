@@ -14,12 +14,12 @@ class AniTexts:
         descriptions=[
             ("Proportional part is about the [[current]] error","and influences the [[stability]] of control performance"),
             ("Integral part is about the [[past]] errors","and influences the [[accuracy]] of control performance"),
-            ("Proportional part is [[future]] error (it's estimation because futher is not measurable)","and influences the [[rapidity]] of control performance"),
+            ("Proportional part is [[future]] error","(it's estimation because futher is not measurable) and influences the [[rapidity]] of control performance"),
         ]
         self.descriptions=self.set_description(descriptions)
 
     def style1(self,text1):
-        text1=text1.replace("[[",r'<span underline="single" underline_color="green">')
+        text1=text1.replace("[[",r'<span underline="single" underline_color="green" fgcolor="red">')
         text1=text1.replace("]]",r'</span>')
         return MarkupText(text1,font_size=30)
         
