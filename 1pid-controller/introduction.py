@@ -14,7 +14,7 @@ class AniTexts:
         descriptions=[
             ("Proportional part is about the [[current]] error","and influences the [[stability]] of control performance"),
             ("Integral part is about the [[past]] errors","and influences the [[accuracy]] of control performance"),
-            ("Proportional part is [[future]] error","(it's estimation because futher is not measurable) and influences the [[rapidity]] of control performance"),
+            ("Proportional part is the estimation of [[future]] error","and influences the [[rapidity]] of control performance"),
         ]
         self.descriptions=self.set_description(descriptions)
 
@@ -41,7 +41,7 @@ class AniTexts:
             descriptions=[
                 ("比例部分与 [[当前误差]] 有关", "并且影响控制性能的 [[稳定性]]"),
                 ("积分部分与 [[以往误差]] 有关", "并且影响控制性能的 [[准确性]]"),
-                ("比例部分与 [[未来误差]] 有关", "（未来是不可测量，所以是估计）并且影响控制性能的 [[快速性]]和震荡特性")
+                ("比例部分与 [[未来误差]] 有关", "（未来是不可测量，所以是估计值）并且影响控制性能的 [[快速性]]和震荡特性")
                 ]
             out.descriptions=out.set_description(descriptions)
         return out
@@ -81,19 +81,19 @@ class Introduction(Scene):
             Create(p_text),
             Create(texts.descriptions[0]),
         )
-        self.wait(5)
+        self.wait(3)
         self.play(
             ReplacementTransform(framebox1,framebox2),
             ReplacementTransform(p_text,i_text),
             ReplacementTransform(texts.descriptions[0],texts.descriptions[1]),
         )
-        self.wait(5)
+        self.wait(3)
         self.play(
             ReplacementTransform(framebox2,framebox3),
             ReplacementTransform(i_text,d_text),
             ReplacementTransform(texts.descriptions[1],texts.descriptions[2]),
         )
-        self.wait(5)
+        self.wait(3)
 
 
 class IntroductionZh(Introduction):
