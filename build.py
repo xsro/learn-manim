@@ -6,7 +6,7 @@ import os
 def merge_videos_ffmpeg(video_path, output_path,run=False):
     tmpdir=output_path.parent.joinpath("tmp")
     if not tmpdir.exists():
-        tmpdir.mkdir()
+        tmpdir.mkdir(exist_ok=True,parents=True)
     to_merge=[]
     for i,p in enumerate(video_path):
         tmpfilename=output_path.name+f"_{i}.ts"
@@ -70,9 +70,9 @@ def read_list(scenelist):
 if __name__=="__main__":
     p=Producer()
     parser = argparse.ArgumentParser()
-    parser.add_argument("scenelist")
-    parser.add_argument("--manim",action="store_true")
-    parser.add_argument("--ffmpeg",action="store_true")
+    parser.add_argument("scenelist",help="list of scenes to render, for example '1pid-controller/scene.txt'")
+    parser.add_argument("--manim",action="store_true",help="run manim to render the scenes")
+    parser.add_argument("--ffmpeg",action="store_true",help="run ffmpeg to merge the videos into a single file, default is True")
     args = parser.parse_args()
     scenelist=Path(args.scenelist)
     if not scenelist.exists():
